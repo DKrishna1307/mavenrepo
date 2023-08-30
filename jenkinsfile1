@@ -23,7 +23,7 @@ pipeline
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: '9e5fac22-f1ca-4000-ba44-7844614e6db7', path: '', url: 'http://3.94.8.1:8080')], contextPath: 'testapp', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: '9e5fac22-f1ca-4000-ba44-7844614e6db7', path: '', url: 'http://34.203.243.242:8080')], contextPath: 'testapp', war: '**/*.war'
             }
             
         }
@@ -31,7 +31,7 @@ pipeline
         {
             steps
             {
-                git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+                git 'https://github.com/DKrishna1307/testing.git'
                 
                 sh 'java -jar /var/lib/jenkins/workspace/declerativepipeline/testing.jar'
                 
@@ -42,7 +42,7 @@ pipeline
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: '9e5fac22-f1ca-4000-ba44-7844614e6db7', path: '', url: 'http://54.89.253.235:8080')], contextPath: 'prodapp', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: '9e5fac22-f1ca-4000-ba44-7844614e6db7', path: '', url: 'http://34.239.133.35:8080')], contextPath: 'prodapp', war: '**/*.war'
             }
             
         }
