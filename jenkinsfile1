@@ -1,105 +1,60 @@
+@Library('CICD library')_
+
 pipeline
 {
     agent any
     stages
     {
-        stage('ContinuousDownload')
+        stage('continuousdownload')
         {
             steps
             {
                 script
                 {
-                    try
-                    {
-                        git 'https://github.com/DKrishna1307/mavenrepo.git'
-                    }
-                    catch(Exception e1)
-                    {
-                        mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: 'failed in CI', to: 'ram@gmail.com'
-                        exit(1)
-                    }
+                    cicd.gitDownload('mavenrepo')
                 }
-                
             }
         }
-         stage('ContinuousBuild')
+        stage('continuousbuild')
         {
             steps
             {
                 script
                 {
-                    try
-                    {
-                        sh 'mvn package'
-                    }
-                    catch(Exception e2)
-                    {
-                        mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: 'failed in CI', to: 'ram@gmail.com'
-                        exit(1)
-                    }
+                    cicd.gitbuild()
                 }
-                
             }
         }
-        stage('ContinuousDeployment')
+        stage('countinuousdeploy')
         {
             steps
             {
                 script
                 {
-                    try
-                    {
-                        sh 'scp /var/lib/jenkins/workspace/exception/webapp/target/webapp.war ubuntu@172.31.92.173:/var/lib/tomcat9/webapps/testapp.war'
-                    }
-                    catch(Exception e3)
-                    {
-                        mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: 'failed in CI', to: 'ram@gmail.com'
-                        exit(1)
-                    }
+                    cicd.gitdeploy("sharedlib","172.31.92.173","testapp")
                 }
                 
             }
         }
-        stage('ContinuousTesting')
+        stage('continuoustest')
         {
             steps
             {
                 script
                 {
-                    try
-                    {
-                        git 'https://github.com/DKrishna1307/testing.git'
-                        sh 'java -jar /var/lib/jenkins/workspace/despipeline/testing.jar'
-                    }
-                    catch(Exception e4)
-                    {
-                        mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: 'failed in CI', to: 'ram@gmail.com'
-                        exit(1)
-                    }
+                    cicd.gittest("testing","sharedlib")
                 }
-                
             }
         }
-        stage('Continuousdelivery')
+        stage('continuousdelivery')
         {
             steps
             {
                 script
                 {
-                    try
-                    {
-                        sh 'scp /var/lib/jenkins/workspace/exception/webapp/target/webapp.war ubuntu@172.31.85.190:/var/lib/tomcat9/webapps/prodapp.war'
-                    }
-                    catch(Exception e5)
-                    {
-                        mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: 'failed in CI', to: 'ram@gmail.com'
-                        exit(1)
-                    }
+                    cicd.gitdelivery("sharedlib","172.31.85.190","prodapp")
                 }
-                
             }
         }
-       
     }
-    
 }
