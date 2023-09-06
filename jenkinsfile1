@@ -25,36 +25,6 @@ pipeline
                 }
             }
         }
-        stage('countinuousdeploy')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.gitdeploy("sharedlib","172.31.92.173","testapp")
-                }
-                
-            }
-        }
-        stage('continuoustest')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.gittest("testing","sharedlib")
-                }
-            }
-        }
-        stage('continuousdelivery')
-        {
-            steps
-            {
-                script
-                {
-                    cicd.gitdelivery("sharedlib","172.31.85.190","prodapp")
-                }
-            }
-        }
+ 
     }
 }
